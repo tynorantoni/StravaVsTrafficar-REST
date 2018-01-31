@@ -1,7 +1,8 @@
 package pl.pawelSz.Entities;
 
+import lombok.Data;
 
-
+@Data
 public class Strava {
 
 	
