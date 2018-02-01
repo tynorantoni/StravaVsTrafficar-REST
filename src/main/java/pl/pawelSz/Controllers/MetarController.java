@@ -26,12 +26,5 @@ public class MetarController {
 
 	}
 	
-	@RequestMapping("/strava")
-	public String getStrava() {
-		return stravaService.getResult("https://www.strava.com/api/v3/athlete");
-
-
-	}
-	
 	
 }

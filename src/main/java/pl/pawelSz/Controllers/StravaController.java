@@ -19,7 +19,7 @@ public class StravaController {
 	
 	
 	@RequestMapping("/")
-	public String getStrava() {
+	public String getUser() {
 		return stravaService.getResult("https://www.strava.com/api/v3/athlete");
 	}
 	@RequestMapping("/bike")

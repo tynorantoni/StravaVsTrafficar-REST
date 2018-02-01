@@ -13,44 +13,37 @@ import pl.pawelSz.Auth.StravaAuth;
 @Service("stravaService")
 public class StravaService {
 
-	
+	public String getResult(String URL) {
+		StringBuilder sb = new StringBuilder();
 
-	
+		try {
+			URL url = new URL(URL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Authorization", "Bearer " + StravaAuth.ACCESS_TOKEN);
 
-	public String getResult(String URL){
-        StringBuilder sb= new StringBuilder();
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException(
+						"Failed : HTTP error code : " + conn.getResponseCode() + " - " + conn.getResponseMessage());
+			}
 
-        try {
-            URL url = new URL(URL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Authorization","Bearer "+StravaAuth.ACCESS_TOKEN);
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode() + " - " + conn.getResponseMessage());
-            }
+			String output;
+			while ((output = br.readLine()) != null) {
+				sb.append(output);
+			}
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+			conn.disconnect();
 
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
+		} catch (IOException e) {
 
-            conn.disconnect();
+			e.printStackTrace();
+			return null;
+		}
+		return sb.toString();
 
-        } catch (IOException e) {
+	}
 
-            e.printStackTrace();
-            return null;
-        }
-        System.out.println(sb.toString());
-        return sb.toString();
-
-    }
-	
-	
 }
