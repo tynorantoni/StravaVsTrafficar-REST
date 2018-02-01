@@ -22,12 +22,13 @@ public class MetarController {
 	@Autowired
 	public StravaService stravaService;
 	@Autowired
-	public FirebaseAuthClass fbc;
+	public FirebaseAuthClass fac;
 	
 	@RequestMapping("/krk")
 	public String getWeather() {
 		try {
-			fbc.stg();
+			fac.stg();
+			fac.jesusSaves(metarService.airfieldCall());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
