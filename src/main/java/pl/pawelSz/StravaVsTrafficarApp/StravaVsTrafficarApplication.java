@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import pl.pawelSz.Auth.FirebaseAuthClass;
-import pl.pawelSz.Service.MetarService;
 import pl.pawelSz.Service.MyFirebaseService;
 
 @SpringBootApplication(scanBasePackages={"pl.pawelSz"})
@@ -17,7 +15,6 @@ public class StravaVsTrafficarApplication {
 		try {
 			new MyFirebaseService().stg();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
