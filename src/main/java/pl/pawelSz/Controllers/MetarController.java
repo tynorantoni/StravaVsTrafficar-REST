@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.pawelSz.Service.MyFirebaseService;
 import pl.pawelSz.Service.MetarService;
 import pl.pawelSz.Service.StravaService;
 
@@ -18,9 +19,21 @@ public class MetarController {
 	public MetarService metarService;
 	@Autowired
 	public StravaService stravaService;
+	@Autowired
+	public MyFirebaseService myfirebaseService;
+	
 	
 	@RequestMapping("/krk")
 	public String getWeather() {
+		myfirebaseService.saveTheMetar("1", metarService.airfieldCall());
+		return metarService.airfieldCall();
+
+
+	}
+	@RequestMapping("/krk2")
+	public String getWeather2() {
+		myfirebaseService.readTheMetar();
+//		System.out.println(myfirebaseService.readTheMetar());
 		return metarService.airfieldCall();
 
 
