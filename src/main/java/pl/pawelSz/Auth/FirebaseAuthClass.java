@@ -2,11 +2,6 @@ package pl.pawelSz.Auth;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -18,50 +13,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-@Service("fac")
+
 public class FirebaseAuthClass {
 
 	public static final String FIREBASE_KEY = "assets//bikemanagerapp-firebase-adminsdk-ydzdb-511a0b6db3.json";
 	
-	public void stg() throws IOException{
-	FileInputStream serviceAccount = new FileInputStream(FIREBASE_KEY);
-
-
-	FirebaseOptions options = new FirebaseOptions.Builder()
-	    .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-	    .setDatabaseUrl("https://bikemanagerapp.firebaseio.com/")
-	    .build();
-	FirebaseApp.initializeApp(options);
 	
-	DatabaseReference ref = FirebaseDatabase
-		    .getInstance()
-		    .getReference("restricted_access/secret_document");
-		ref.addListenerForSingleValueEvent(new ValueEventListener() {
-		    @Override
-		    public void onDataChange(DataSnapshot dataSnapshot) {
-		        Object document = dataSnapshot.getValue();
-		        System.out.println(document);
-System.out.println("hejka");
-		    }
-
-			@Override
-			public void onCancelled(DatabaseError arg0) {
-				System.out.println("dupa");
-				
-			}
-		});
-	}
 	
-	public void jesusSaves(String test){
-		final FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("server/saving-data/fireblog");
-		
-
-		Map<String, String> users = new HashMap<>();
-		users.put("1", test);
-		
-
-		ref.setValueAsync(users);
-	}
 	
 }

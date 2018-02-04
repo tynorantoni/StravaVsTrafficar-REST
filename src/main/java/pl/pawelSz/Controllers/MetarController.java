@@ -1,14 +1,12 @@
 package pl.pawelSz.Controllers;
 
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.pawelSz.Auth.FirebaseAuthClass;
+import pl.pawelSz.Service.MyFirebaseService;
 import pl.pawelSz.Service.MetarService;
 import pl.pawelSz.Service.StravaService;
 
@@ -22,17 +20,20 @@ public class MetarController {
 	@Autowired
 	public StravaService stravaService;
 	@Autowired
-	public FirebaseAuthClass fac;
+	public MyFirebaseService myfirebaseService;
+	
 	
 	@RequestMapping("/krk")
 	public String getWeather() {
-		try {
-			fac.stg();
-			fac.jesusSaves(metarService.airfieldCall());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		myfirebaseService.saveTheMetar("1", metarService.airfieldCall());
+		return metarService.airfieldCall();
+
+
+	}
+	@RequestMapping("/krk2")
+	public String getWeather2() {
+		myfirebaseService.readTheMetar();
+//		System.out.println(myfirebaseService.readTheMetar());
 		return metarService.airfieldCall();
 
 
