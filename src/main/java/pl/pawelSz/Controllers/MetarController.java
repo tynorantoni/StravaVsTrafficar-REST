@@ -15,7 +15,7 @@ import pl.pawelSz.Service.MyFirebaseService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class MetarController {
 
 	@Autowired
@@ -36,14 +36,14 @@ public class MetarController {
 
 	}
 	
-//	@RequestMapping("/krk2")
-//	public String getWeather2() {
+	@RequestMapping("/krk2")
+	public String getWeather2() {
 //		myfirebaseService.readTheMetar();
-////		System.out.println(myfirebaseService.readTheMetar());
-//		return metarService.airfieldCall();
-//
-//
-//	}
-//	
+//		System.out.println(myfirebaseService.readTheMetar());
+		return metarService.airfieldCall();
+
+
+	}
+	
 	
 }

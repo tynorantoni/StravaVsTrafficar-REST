@@ -15,7 +15,7 @@ import pl.pawelSz.Service.StravaService;
 
 @RestController
 @RequestMapping("/api/strava")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StravaController {
 
 	
