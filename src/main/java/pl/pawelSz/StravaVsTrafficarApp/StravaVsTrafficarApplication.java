@@ -13,7 +13,7 @@ public class StravaVsTrafficarApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StravaVsTrafficarApplication.class, args);	
 		try {
-			new MyFirebaseService().stg();
+			new MyFirebaseService().stage();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
