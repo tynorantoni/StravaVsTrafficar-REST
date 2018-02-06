@@ -38,7 +38,7 @@ public class MetarController {
 	
 	@RequestMapping("/krk2")
 	public String getWeather2() {
-//		myfirebaseService.readTheMetar();
+		myfirebaseService.readTheMetar();
 //		System.out.println(myfirebaseService.readTheMetar());
 		return metarService.airfieldCall();
 

@@ -9,6 +9,7 @@ public class Metar {
 
 	@SerializedName("data") 
 	public String[] metar;
+	
 
 	
 	

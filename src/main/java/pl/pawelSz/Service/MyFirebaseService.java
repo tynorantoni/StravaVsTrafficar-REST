@@ -19,6 +19,7 @@ import pl.pawelSz.Entities.Metar;
 import pl.pawelSz.Entities.Strava;
 
 
+
 @Service("myfirebaseService")
 public class MyFirebaseService {
 
@@ -65,8 +66,8 @@ public class MyFirebaseService {
 		ref.addValueEventListener(new ValueEventListener() {
 		    @Override
 		    public void onDataChange(DataSnapshot dataSnapshot) {
-		       Metar metar = dataSnapshot.getValue(Metar.class);
-		        System.out.println(metar);
+		    	Metar[] metar = {dataSnapshot.getValue(Metar.class)};
+		       System.out.println(metar[0]+"z db");
 		    }
 
 		    @Override
