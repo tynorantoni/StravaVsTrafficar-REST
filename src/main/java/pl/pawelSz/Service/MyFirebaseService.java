@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import pl.pawelSz.Auth.FirebaseAuthClass;
-import pl.pawelSz.Entities.Strava;
 
 @Service("myfirebaseService")
 public class MyFirebaseService {
@@ -26,6 +25,7 @@ public class MyFirebaseService {
 	static public List<Object> listForMetar = new LinkedList<>();
 	static public List<Object> listForUser = new LinkedList<>();
 	static public List<Object> listForBike = new LinkedList<>();
+	static public List<Object> listForRides = new LinkedList<>();
 
 	public void stageFirebase() throws IOException {
 		FileInputStream serviceAccount = new FileInputStream(FirebaseAuthClass.FIREBASE_KEY);
@@ -109,45 +109,44 @@ public class MyFirebaseService {
 		DatabaseReference ref = database.getReference("user");
 
 		ref.addChildEventListener(new ChildEventListener() {
-			
+
 			@Override
 			public void onChildRemoved(DataSnapshot snapshot) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
 				Object obj = dataSnapshot.getValue();
 
 				listForUser.add(obj);
-				
+
 			}
-			
+
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 				Object obj = dataSnapshot.getValue();
 
 				listForUser.add(obj);
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
 				Object objError = databaseError.getCode();
 
 				listForUser.add(objError);
-				
+
 			}
 		});
 	}
-			
 
 	public void saveTheBike(String bike) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -161,43 +160,95 @@ public class MyFirebaseService {
 		DatabaseReference ref = database.getReference("bike");
 
 		ref.addChildEventListener(new ChildEventListener() {
-			
+
 			@Override
 			public void onChildRemoved(DataSnapshot snapshot) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
 				Object obj = dataSnapshot.getValue();
 
 				listForBike.add(obj);
-				
+
 			}
-			
+
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 				Object obj = dataSnapshot.getValue();
 
 				listForBike.add(obj);
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
 				Object objError = databaseError.getCode();
 
 				listForBike.add(objError);
-				
+
 			}
 		});
 	}
-	
+
+	public void saveTheRides(String rides) {
+		final FirebaseDatabase database = FirebaseDatabase.getInstance();
+		DatabaseReference ref = database.getReference("data/rides");
+
+		ref.setValueAsync(rides);
+
+	}
+
+	public void readTheRides() {
+		final FirebaseDatabase database = FirebaseDatabase.getInstance();
+		DatabaseReference ref = database.getReference("data/rides");
+
+		ref.addChildEventListener(new ChildEventListener() {
+
+			@Override
+			public void onChildRemoved(DataSnapshot snapshot) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+				Object obj = dataSnapshot.getValue();
+
+				listForRides.add(obj);
+
+			}
+
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+				Object obj = dataSnapshot.getValue();
+
+				listForRides.add(obj);
+
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				Object objError = databaseError.getCode();
+
+				listForRides.add(objError);
+
+			}
+		});
+	}
+
 }
