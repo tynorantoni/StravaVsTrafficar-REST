@@ -51,4 +51,24 @@ public class StravaRides {
 	@SerializedName("kudos_count") 
 	private int kudosCount;
 	
+	
+	public StravaRides(int rideId, float distance, int movingTime, int elapsedTime, float elevationGain,
+			float averageSpeed, float maxSpeed, float averageWatts, int achievementCount, int personalRecords,
+			int kudosCount) {
+		super();
+		this.rideId = rideId;
+		this.distance = distance;
+		this.movingTime = movingTime;
+		this.elapsedTime = elapsedTime;
+		this.elevationGain = elevationGain;
+		this.averageSpeed = averageSpeed;
+		this.maxSpeed = maxSpeed;
+		this.averageWatts = averageWatts;
+		this.achievementCount = achievementCount;
+		this.personalRecords = personalRecords;
+		this.kudosCount = kudosCount;
+	}
+	
+	
+	
 }

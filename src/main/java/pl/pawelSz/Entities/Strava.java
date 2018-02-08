@@ -18,7 +18,7 @@ public class Strava {
 	@SerializedName("email") 
 	private String email;
 	
-
+	
 	
 
 	

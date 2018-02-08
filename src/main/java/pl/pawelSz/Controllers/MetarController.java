@@ -42,15 +42,14 @@ public class MetarController {
 
 	@RequestMapping(value = "/metar/decoded", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<String> getDecodedMetar() {
-		
-		String metarFromDB = MyFirebaseService.listForMetar.get(MyFirebaseService.listForMetar.size()-1).toString();
-		metarFromDB = metarFromDB.substring(1, metarFromDB.length()-1);
+
+		String metarFromDB = MyFirebaseService.listForMetar.get(MyFirebaseService.listForMetar.size() - 1).toString();
+		metarFromDB = metarFromDB.substring(1, metarFromDB.length() - 1);
 
 		MetarDescriptor metarDecoded = metarService.metarOnDecode(metarFromDB);
 
-		
 		return new ResponseEntity<String>(gson.toJson(metarDecoded), HttpStatus.OK);
-		
+
 	}
 
 }

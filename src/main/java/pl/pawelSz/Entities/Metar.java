@@ -17,8 +17,5 @@ public class Metar {
 	}
 
 	public Metar(){}
-	
-//	public Metar(String[] metar){
-//		this.metar = metar;
-//	}
+
 }

@@ -18,14 +18,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import pl.pawelSz.Auth.FirebaseAuthClass;
+import pl.pawelSz.Entities.Strava;
+import pl.pawelSz.Entities.StravaBike;
+import pl.pawelSz.Entities.StravaRides;
 
 @Service("myfirebaseService")
 public class MyFirebaseService {
 
 	static public List<Object> listForMetar = new LinkedList<>();
-	static public List<Object> listForUser = new LinkedList<>();
-	static public List<Object> listForBike = new LinkedList<>();
-	static public List<Object> listForRides = new LinkedList<>();
+	static public List<Strava> listForUser = new LinkedList<>();
+	static public List<StravaBike> listForBike = new LinkedList<>();
+	static public List<StravaRides> listForRides = new LinkedList<>();
 
 	public void stageFirebase() throws IOException {
 		FileInputStream serviceAccount = new FileInputStream(FirebaseAuthClass.FIREBASE_KEY);
@@ -74,7 +77,7 @@ public class MyFirebaseService {
 
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String arg1) {
-				System.out.println(dataSnapshot.getValue() + " on child changed");
+//				System.out.println(dataSnapshot.getValue() + " on child changed");
 				Object obj = dataSnapshot.getValue();
 
 				listForMetar.add(obj);
@@ -83,7 +86,7 @@ public class MyFirebaseService {
 
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String arg1) {
-				System.out.println(dataSnapshot.getValue() + " on child added");
+//				System.out.println(dataSnapshot.getValue() + " on child added");
 				Object obj = dataSnapshot.getValue();
 
 				listForMetar.add(obj);
@@ -97,7 +100,7 @@ public class MyFirebaseService {
 		});
 	}
 
-	public void saveTheUser(String user) {
+	public void saveTheUser(Strava user) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("user");
 
@@ -105,50 +108,28 @@ public class MyFirebaseService {
 	}
 
 	public void readTheUser() {
+		
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("user");
 
-		ref.addChildEventListener(new ChildEventListener() {
-
-			@Override
-			public void onChildRemoved(DataSnapshot snapshot) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-				Object obj = dataSnapshot.getValue();
-
+		
+		ref.addValueEventListener(new ValueEventListener() {
+		    @Override
+		    public void onDataChange(DataSnapshot dataSnapshot) {
+		    	Strava obj = dataSnapshot.getValue(Strava.class);
+				System.out.println(dataSnapshot.getValue() + " on child changed");
 				listForUser.add(obj);
+		    }
 
-			}
-
-			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-				Object obj = dataSnapshot.getValue();
-
-				listForUser.add(obj);
-
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-				Object objError = databaseError.getCode();
-
-				listForUser.add(objError);
-
-			}
+		    @Override
+		    public void onCancelled(DatabaseError databaseError) {
+		        System.out.println("The read failed: " + databaseError.getCode());
+		    }
 		});
+		
 	}
 
-	public void saveTheBike(String bike) {
+	public void saveTheBike(StravaBike bike) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("bike");
 
@@ -156,60 +137,39 @@ public class MyFirebaseService {
 	}
 
 	public void readTheBike() {
+		
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("bike");
 
-		ref.addChildEventListener(new ChildEventListener() {
-
-			@Override
-			public void onChildRemoved(DataSnapshot snapshot) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-				Object obj = dataSnapshot.getValue();
-
+		// Attach a listener to read the data at our posts reference
+		ref.addValueEventListener(new ValueEventListener() {
+		    @Override
+		    public void onDataChange(DataSnapshot dataSnapshot) {
+		    	StravaBike obj = dataSnapshot.getValue(StravaBike.class);
+				System.out.println(dataSnapshot.getValue() + " on child changed");
 				listForBike.add(obj);
-
-			}
-
-			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-				Object obj = dataSnapshot.getValue();
-
-				listForBike.add(obj);
-
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-				Object objError = databaseError.getCode();
-
-				listForBike.add(objError);
-
-			}
+		    }
+		    @Override
+		    public void onCancelled(DatabaseError databaseError) {
+		        System.out.println("The read failed: " + databaseError.getCode());
+		    }
 		});
+		    
+		
+//		
 	}
 
-	public void saveTheRides(String rides) {
+	public void saveTheRides(StravaRides rides) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("data/rides");
+		DatabaseReference ref = database.getReference("strava/rides");
 
-		ref.setValueAsync(rides);
+		ref.push().setValueAsync(rides);
 
 	}
 
 	public void readTheRides() {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("data/rides");
+		DatabaseReference ref = database.getReference("strava/rides");
 
 		ref.addChildEventListener(new ChildEventListener() {
 
@@ -227,7 +187,7 @@ public class MyFirebaseService {
 
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-				Object obj = dataSnapshot.getValue();
+				StravaRides obj = dataSnapshot.getValue(StravaRides.class);
 
 				listForRides.add(obj);
 
@@ -235,7 +195,7 @@ public class MyFirebaseService {
 
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-				Object obj = dataSnapshot.getValue();
+				StravaRides obj = dataSnapshot.getValue(StravaRides.class);
 
 				listForRides.add(obj);
 
@@ -243,9 +203,9 @@ public class MyFirebaseService {
 
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
-				Object objError = databaseError.getCode();
+				
 
-				listForRides.add(objError);
+				
 
 			}
 		});
