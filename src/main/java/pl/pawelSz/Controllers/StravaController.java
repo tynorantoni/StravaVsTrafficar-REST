@@ -94,7 +94,6 @@ public class StravaController {
 	public ResponseEntity<String> getActivitiesFromDB() {
 
 		String ridesFromDB=gson.toJson(MyFirebaseService.listForRides.get(MyFirebaseService.listForRides.size()-1), StravaRides.class);
-		
 		return new ResponseEntity<String>(ridesFromDB, HttpStatus.OK);
 	}
 }
