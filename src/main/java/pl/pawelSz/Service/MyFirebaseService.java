@@ -28,7 +28,7 @@ public class MyFirebaseService {
 	static public List<Object> listForMetar = new LinkedList<>();
 	static public List<Strava> listForUser = new LinkedList<>();
 	static public List<StravaBike> listForBike = new LinkedList<>();
-	static public List<StravaRides> listForRides = new LinkedList<>();
+	static public List<Object> listForRides = new LinkedList<>();
 
 	public void stageFirebase() throws IOException {
 		FileInputStream serviceAccount = new FileInputStream(FirebaseAuthClass.FIREBASE_KEY);
@@ -42,7 +42,6 @@ public class MyFirebaseService {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				Object document = dataSnapshot.getValue();
-				System.out.println(document);
 			}
 
 			@Override
@@ -163,10 +162,14 @@ public class MyFirebaseService {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("strava/rides");
 
-		ref.push().setValueAsync(rides);
+		ref.setValueAsync(rides);
 
 	}
 
+
+
+			
+	
 	public void readTheRides() {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("strava/rides");
@@ -187,18 +190,18 @@ public class MyFirebaseService {
 
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-				StravaRides obj = dataSnapshot.getValue(StravaRides.class);
+				Object obj = dataSnapshot.getValue();
 
 				listForRides.add(obj);
-
+				System.out.println(obj.toString());
 			}
 
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-				StravaRides obj = dataSnapshot.getValue(StravaRides.class);
+				Object obj = dataSnapshot.getValue();
 
 				listForRides.add(obj);
-
+				System.out.println(obj.toString());
 			}
 
 			@Override

@@ -55,7 +55,7 @@ public class StravaRides {
 	public StravaRides(int rideId, float distance, int movingTime, int elapsedTime, float elevationGain,
 			float averageSpeed, float maxSpeed, float averageWatts, int achievementCount, int personalRecords,
 			int kudosCount) {
-		super();
+		
 		this.rideId = rideId;
 		this.distance = distance;
 		this.movingTime = movingTime;

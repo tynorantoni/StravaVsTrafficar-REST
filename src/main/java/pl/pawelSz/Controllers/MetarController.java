@@ -44,8 +44,7 @@ public class MetarController {
 	public ResponseEntity<String> getDecodedMetar() {
 
 		String metarFromDB = MyFirebaseService.listForMetar.get(MyFirebaseService.listForMetar.size() - 1).toString();
-		metarFromDB = metarFromDB.substring(1, metarFromDB.length() - 1);
-
+		metarFromDB = metarFromDB.substring(2, metarFromDB.length() - 2);
 		MetarDescriptor metarDecoded = metarService.metarOnDecode(metarFromDB);
 
 		return new ResponseEntity<String>(gson.toJson(metarDecoded), HttpStatus.OK);

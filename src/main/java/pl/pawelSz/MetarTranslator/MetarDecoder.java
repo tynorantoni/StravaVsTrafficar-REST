@@ -1,5 +1,8 @@
 package pl.pawelSz.MetarTranslator;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -13,7 +16,17 @@ public class MetarDecoder {
 	private String[] metarSplit;
 
 	public String[] spliter(String metarMessage) {
-		return metarSplit = metarMessage.split(" ");
+		String[] result = metarMessage.split(" ");
+		if (metarMessage.contains("R25")) {
+			List<String> list = new LinkedList<String>(Arrays.asList(result));
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).substring(0, 3).equals("R25")) {
+					list.remove(i);
+				}
+			}
+			result = list.toArray(result);
+		}
+		return result;
 	}
 
 	public MetarDescriptor handler(String metar) {
@@ -22,16 +35,13 @@ public class MetarDecoder {
 				streamofArray.get().filter(p -> p.matches("\\D{4}")).findFirst().get(),
 				streamofArray.get().filter(p -> p.contains("Z")).findFirst().get(),
 				streamofArray.get().filter(p -> p.contains("KT")).findFirst().get(),
-				streamofArray.get().filter(p -> p.matches("\\d{4}")).findFirst().get(), "VA",
-				// streamofArray.get().filter(p ->
-				// p.matches("\\D{2}")).findFirst().get(),
-				streamofArray.get().filter(p -> p.matches("\\D{3}\\d{3}")).findFirst().get(), "M04\\/M07",
-				// streamofArray.get().filter(p ->
-				// p.matches("\\D*\\d{2}\\/\\D*\\d{2}")).findFirst().get(),
+				streamofArray.get().filter(p -> p.matches("\\d{4}")).findFirst().get(),
+				streamofArray.get().filter(p -> p.matches("\\D{2,}$")).findFirst().get(),
+				streamofArray.get().filter(p -> p.matches("\\D{3}\\d{3}")).findFirst().get(),
+				streamofArray.get().filter(p -> p.matches("M*\\d{2}\\/M*\\d{2}")).findFirst().get(),
 				streamofArray.get().filter(p -> p.contains("Q")).findFirst().get()
-
-		);
-
+//				streamofArray.get().filter(p -> p.equals("CAVOK") || p.equals("NOSIG")).findFirst().get()
+				);
 		return metarObject;
 	}
 

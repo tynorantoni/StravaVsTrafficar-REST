@@ -93,10 +93,8 @@ public class StravaController {
 	@RequestMapping(value = "/activities/get", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<String> getActivitiesFromDB() {
 
-		String ridesFromDB=gson.toJson(MyFirebaseService.listForRides.get(0), StravaRides.class);
-		// StravaBike stravaBikeDB = gson.fromJson(bikeFromDB,
-		// StravaBike.class);
-
+		String ridesFromDB=gson.toJson(MyFirebaseService.listForRides.get(MyFirebaseService.listForRides.size()-1), StravaRides.class);
+		
 		return new ResponseEntity<String>(ridesFromDB, HttpStatus.OK);
 	}
 }

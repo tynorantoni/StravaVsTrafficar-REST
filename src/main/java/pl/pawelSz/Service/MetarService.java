@@ -39,8 +39,8 @@ public class MetarService {
 		
 		MetarDescriptor metarObject = decoder.handler(metar);
 		
-		metarObject.setTemperature(decoder.temperature(metarObject.getTemperature()));
-		metarObject.setTemperature(decoder.dewPiontTemperature(metarObject.getTemperature()));
+		metarObject.setTemperature(decoder.temperature(metarObject.getTemperature())+" "
+		+decoder.dewPiontTemperature(metarObject.getTemperature()));
 		metarObject.setPressure(decoder.pressure(metarObject.getPressure()));
 		metarObject.setVisibility(decoder.visibility(metarObject.getVisibility()));
 		metarObject.setWind(decoder.wind(metarObject.getWind()));
