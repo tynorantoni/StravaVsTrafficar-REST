@@ -31,7 +31,6 @@ public class DirectionResolver {
 	        return directionMap.entrySet().stream().filter(map -> map.getKey() == key).map(Map.Entry::getValue).findFirst().get();
 	    }
 
-	    //TODO podzielić na trzy metody zwracające mapy i ify przenieść do MetarDecodera?
 	    public static String weather(String message) {
 
 	        Map<String, String> weatherAcronyms = new HashMap<>();

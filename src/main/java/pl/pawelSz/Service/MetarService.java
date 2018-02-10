@@ -14,38 +14,38 @@ import pl.pawelSz.MetarTranslator.MetarDecoder;
 @Service("metarService")
 public class MetarService {
 
-	RestTemplate restTemplate;
 	@Autowired
 	MetarDecoder decoder;
+	RestTemplate restTemplate;
 
-    public MetarService() {
-        restTemplate = new RestTemplate();
-      
-    }
+	public MetarService() {
+		restTemplate = new RestTemplate();
 
-    public String airfieldCall() {
-    	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.APPLICATION_JSON);
-    	headers.set(MetarAuth.METAR_KEY, MetarAuth.METAR_VALUE);
+	}
 
-    	HttpEntity<String> entity = new HttpEntity<String>(headers);
-    	String result = restTemplate.postForObject("https://api.checkwx.com/metar/epkk", entity, String.class);
-    	System.out.println(result);
-    	return result;
-    			
-    }
-	
-    public String metarOnDecode(String metar){
-    	StringBuilder sb = new StringBuilder();
-    	MetarDescriptor metarObject = decoder.handler(metar);
-    	
-    	sb.append(decoder.temperature(metarObject.getTemperature()));
-    	sb.append(decoder.dewPiontTemperature(metarObject.getTemperature()));
-    	sb.append(decoder.pressure(metarObject.getPressure()));
-    	sb.append(decoder.visibility(metarObject.getVisibility()));
-    	sb.append(decoder.wind(metarObject.getWind()));
-    	
-    	return sb.toString();
-    }
-    
+	public String airfieldCall() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set(MetarAuth.METAR_KEY, MetarAuth.METAR_VALUE);
+
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		String result = restTemplate.postForObject("https://api.checkwx.com/metar/epkk", entity, String.class);
+		System.out.println(result);
+		return result;
+
+	}
+
+	public MetarDescriptor metarOnDecode(String metar) {
+		
+		MetarDescriptor metarObject = decoder.handler(metar);
+		
+		metarObject.setTemperature(decoder.temperature(metarObject.getTemperature())+" "
+		+decoder.dewPiontTemperature(metarObject.getTemperature()));
+		metarObject.setPressure(decoder.pressure(metarObject.getPressure()));
+		metarObject.setVisibility(decoder.visibility(metarObject.getVisibility()));
+		metarObject.setWind(decoder.wind(metarObject.getWind()));
+
+		return metarObject;
+	}
+
 }

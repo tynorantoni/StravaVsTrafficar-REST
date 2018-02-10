@@ -1,6 +1,5 @@
 package pl.pawelSz.Controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 
 import pl.pawelSz.Entities.Metar;
+import pl.pawelSz.Entities.MetarDescriptor;
 import pl.pawelSz.Service.MetarService;
 import pl.pawelSz.Service.MyFirebaseService;
 
@@ -25,39 +25,30 @@ public class MetarController {
 	public MetarService metarService;
 	@Autowired
 	public MyFirebaseService myfirebaseService;
-	
-	public Metar mt;
-	
-	@Scheduled(fixedDelay=1740000)
-	@RequestMapping(value = "/krk", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<String> getWeather() {
-		Gson gson = new Gson();
+
+	public Gson gson = new Gson();
+
+	@Scheduled(fixedDelay = 1740000)
+	@RequestMapping(value = "/metar", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> getMetarFromAPI() {
+
 		String json = metarService.airfieldCall();
 		Metar metar = gson.fromJson(json, Metar.class);
-		System.out.println(metarService.metarOnDecode("EPKK 062030Z 04005KT 7000 BKN044 M04\\/M07 Q1018"));
-	Metar res = new Metar();
-	res.setResult(metarService.metarOnDecode("EPKK 062030Z 04005KT 7000 BKN044 M04\\/M07 Q1018"));
 		myfirebaseService.saveTheMetar(gson.toJson(metar.metar));
-		return new ResponseEntity<String>(gson.toJson(res.getResult()), HttpStatus.OK);
-
-
-	}
-	
-	@RequestMapping("/krk2")
-	public String getWeather2() {
 		myfirebaseService.readTheMetar();
-
-		return "well";
-	}
-		
-		
-		@RequestMapping("/krk3")
-		public String getWeather3() {
-		
-
-			return MyFirebaseService.mapObj.get(1).toString();
+		return new ResponseEntity<String>(gson.toJson(metar.metar), HttpStatus.OK);
 
 	}
-	
-	
+
+	@RequestMapping(value = "/metar/decoded", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> getDecodedMetar() {
+
+		String metarFromDB = MyFirebaseService.listForMetar.get(MyFirebaseService.listForMetar.size() - 1).toString();
+		metarFromDB = metarFromDB.substring(2, metarFromDB.length() - 2);
+		MetarDescriptor metarDecoded = metarService.metarOnDecode(metarFromDB);
+
+		return new ResponseEntity<String>(gson.toJson(metarDecoded), HttpStatus.OK);
+
+	}
+
 }

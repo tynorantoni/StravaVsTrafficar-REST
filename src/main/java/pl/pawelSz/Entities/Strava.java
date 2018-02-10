@@ -8,7 +8,7 @@ import lombok.Data;
 public class Strava {
 
 	@SerializedName("id") 
-	private long userId;
+	private int userId;
 	@SerializedName("firstname") 
 	private String firstname;
 	@SerializedName("created_at") 
@@ -18,7 +18,7 @@ public class Strava {
 	@SerializedName("email") 
 	private String email;
 	
-
+	
 	
 
 	
