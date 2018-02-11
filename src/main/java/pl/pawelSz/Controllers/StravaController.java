@@ -84,7 +84,9 @@ public class StravaController {
 		Type listType = new TypeToken<List<StravaRides>>(){}.getType();
 		List<StravaRides> stravaRides = gson.fromJson(json, listType);
 		for(StravaRides ride: stravaRides){
+			System.out.println(ride+"to jedna jazda z cntroll");
 		myfirebaseService.saveTheRides(ride);
+		break;
 		}
 		myfirebaseService.readTheRides();
 		return new ResponseEntity<String>(gson.toJson(stravaRides), HttpStatus.OK);
@@ -93,7 +95,7 @@ public class StravaController {
 	@RequestMapping(value = "/activities/get", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<String> getActivitiesFromDB() {
 
-		String ridesFromDB=gson.toJson(MyFirebaseService.listForRides.get(MyFirebaseService.listForRides.size()-1), StravaRides.class);
+		String ridesFromDB=gson.toJson(MyFirebaseService.listForRides.get(MyFirebaseService.listForRides.size() - 1),Object.class);
 		return new ResponseEntity<String>(ridesFromDB, HttpStatus.OK);
 	}
 }
