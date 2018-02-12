@@ -10,9 +10,10 @@ import org.springframework.web.client.RestTemplate;
 import pl.pawelSz.Auth.MetarAuth;
 import pl.pawelSz.Entities.MetarDescriptor;
 import pl.pawelSz.MetarTranslator.MetarDecoder;
+import pl.pawelSz.ServiceInterface.MetarInterface;
 
 @Service("metarService")
-public class MetarService {
+public class MetarService implements MetarInterface {
 
 	@Autowired
 	MetarDecoder decoder;
@@ -36,11 +37,11 @@ public class MetarService {
 	}
 
 	public MetarDescriptor metarOnDecode(String metar) {
-		
+
 		MetarDescriptor metarObject = decoder.handler(metar);
-		
-		metarObject.setTemperature(decoder.temperature(metarObject.getTemperature())+" "
-		+decoder.dewPiontTemperature(metarObject.getTemperature()));
+
+		metarObject.setTemperature(decoder.temperature(metarObject.getTemperature()) + " "
+				+ decoder.dewPiontTemperature(metarObject.getTemperature()));
 		metarObject.setPressure(decoder.pressure(metarObject.getPressure()));
 		metarObject.setVisibility(decoder.visibility(metarObject.getVisibility()));
 		metarObject.setWind(decoder.wind(metarObject.getWind()));

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import pl.pawelSz.Entities.Metar;
 import pl.pawelSz.Entities.MetarDescriptor;
 import pl.pawelSz.Service.MetarService;
-import pl.pawelSz.Service.MyFirebaseService;
+import pl.pawelSz.Service.MyFirebaseMetarService;
 
 @RestController
 @RequestMapping("/api")
@@ -24,7 +24,7 @@ public class MetarController {
 	@Autowired
 	public MetarService metarService;
 	@Autowired
-	public MyFirebaseService myfirebaseService;
+	public MyFirebaseMetarService myfirebaseServiceMetar;
 
 	public Gson gson = new Gson();
 
@@ -34,8 +34,8 @@ public class MetarController {
 
 		String json = metarService.airfieldCall();
 		Metar metar = gson.fromJson(json, Metar.class);
-		myfirebaseService.saveTheMetar(gson.toJson(metar.metar));
-		myfirebaseService.readTheMetar();
+		myfirebaseServiceMetar.saveTheMetar(gson.toJson(metar.metar));
+		myfirebaseServiceMetar.readTheMetar();
 		return new ResponseEntity<String>(gson.toJson(metar.metar), HttpStatus.OK);
 
 	}
@@ -43,7 +43,7 @@ public class MetarController {
 	@RequestMapping(value = "/metar/decoded", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<String> getDecodedMetar() {
 
-		String metarFromDB = MyFirebaseService.listForMetar.get(MyFirebaseService.listForMetar.size() - 1).toString();
+		String metarFromDB = MyFirebaseMetarService.listForMetar.get(MyFirebaseMetarService.listForMetar.size() - 1).toString();
 		metarFromDB = metarFromDB.substring(2, metarFromDB.length() - 2);
 		MetarDescriptor metarDecoded = metarService.metarOnDecode(metarFromDB);
 

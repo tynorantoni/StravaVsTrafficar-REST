@@ -9,9 +9,10 @@ import java.net.URL;
 import org.springframework.stereotype.Service;
 
 import pl.pawelSz.Auth.StravaAuth;
+import pl.pawelSz.ServiceInterface.StravaInterface;
 
 @Service("stravaService")
-public class StravaService {
+public class StravaService implements StravaInterface{
 
 	public String getResult(String URL) {
 		StringBuilder sb = new StringBuilder();

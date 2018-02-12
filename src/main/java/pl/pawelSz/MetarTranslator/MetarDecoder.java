@@ -40,8 +40,9 @@ public class MetarDecoder {
 				streamofArray.get().filter(p -> p.matches("\\D{3}\\d{3}")).findFirst().get(),
 				streamofArray.get().filter(p -> p.matches("M*\\d{2}\\/M*\\d{2}")).findFirst().get(),
 				streamofArray.get().filter(p -> p.contains("Q")).findFirst().get()
-//				streamofArray.get().filter(p -> p.equals("CAVOK") || p.equals("NOSIG")).findFirst().get()
-				);
+		// streamofArray.get().filter(p -> p.equals("CAVOK") ||
+		// p.equals("NOSIG")).findFirst().get()
+		);
 		return metarObject;
 	}
 
@@ -49,16 +50,15 @@ public class MetarDecoder {
 		return metarSplit[0].equals("EPKK");
 	}
 
-	
-		public String wind(String windMessage) {
-	        if(windMessage.substring(0, 3).equals("VRB")){
-	        int windSpeed = Integer.valueOf(windMessage.substring(3, windMessage.length() - 2));
-	        return "Wind direction: variable" + ", Speed: " + windSpeed + " knots";    
-	        }
-	        int windDir = Integer.valueOf(windMessage.substring(0, 3));
-	        int windSpeed = Integer.valueOf(windMessage.substring(2, windMessage.length() - 2));
-	        return "Wind direction: " + DirectionResolver.direction(windDir) + ", Speed: " + windSpeed + " knots";
-	    }
+	public String wind(String windMessage) {
+		if (windMessage.substring(0, 3).equals("VRB")) {
+			int windSpeed = Integer.valueOf(windMessage.substring(3, windMessage.length() - 2));
+			return "Wind direction: variable" + ", Speed: " + windSpeed + " knots";
+		}
+		int windDir = Integer.valueOf(windMessage.substring(0, 3));
+		int windSpeed = Integer.valueOf(windMessage.substring(2, windMessage.length() - 2));
+		return "Wind direction: " + DirectionResolver.direction(windDir) + ", Speed: " + windSpeed + " knots";
+	}
 
 	public String visibility(String visibilityMessage) {
 		if (Integer.valueOf(visibilityMessage) == 0000) {
